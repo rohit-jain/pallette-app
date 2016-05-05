@@ -34,6 +34,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
@@ -73,6 +74,7 @@ public class DeviceControlActivity extends Activity implements RobotChangedState
     private String mDeviceName;
     private String mDeviceAddress;
     private ExpandableListView mGattServicesList;
+    private Button spheroButton;
     private BluetoothLeService mBluetoothLeService;
     private ArrayList<ArrayList<BluetoothGattCharacteristic>> mGattCharacteristics =
             new ArrayList<ArrayList<BluetoothGattCharacteristic>>();
@@ -178,18 +180,18 @@ public class DeviceControlActivity extends Activity implements RobotChangedState
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gatt_services_characteristics);
 //        commented for sphero
-//        DualStackDiscoveryAgent.getInstance().addRobotStateListener( this );
-//        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ) {
-//            int hasLocationPermission = checkSelfPermission( Manifest.permission.ACCESS_COARSE_LOCATION );
-//            if( hasLocationPermission != PackageManager.PERMISSION_GRANTED ) {
-//                Log.e( "Sphero", "Location permission has not already been granted" );
-//                List<String> permissions = new ArrayList<String>();
-//                permissions.add( Manifest.permission.ACCESS_COARSE_LOCATION);
-//                requestPermissions(permissions.toArray(new String[permissions.size()] ), REQUEST_CODE_LOCATION_PERMISSION );
-//            } else {
-//                Log.d( "Sphero", "Location permission already granted" );
-//            }
-//        }
+        DualStackDiscoveryAgent.getInstance().addRobotStateListener( this );
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ) {
+            int hasLocationPermission = checkSelfPermission( Manifest.permission.ACCESS_COARSE_LOCATION );
+            if( hasLocationPermission != PackageManager.PERMISSION_GRANTED ) {
+                Log.e( "Sphero", "Location permission has not already been granted" );
+                List<String> permissions = new ArrayList<String>();
+                permissions.add( Manifest.permission.ACCESS_COARSE_LOCATION);
+                requestPermissions(permissions.toArray(new String[permissions.size()] ), REQUEST_CODE_LOCATION_PERMISSION );
+            } else {
+                Log.d( "Sphero", "Location permission already granted" );
+            }
+        }
         final Intent intent = getIntent();
         mDeviceName = intent.getStringExtra(EXTRAS_DEVICE_NAME);
         mDeviceAddress = intent.getStringExtra(EXTRAS_DEVICE_ADDRESS);
@@ -200,12 +202,21 @@ public class DeviceControlActivity extends Activity implements RobotChangedState
         mGattServicesList.setOnChildClickListener(servicesListClickListner);
         mConnectionState = (TextView) findViewById(R.id.connection_state);
         mDataField = (TextView) findViewById(R.id.data_value);
-
+        spheroButton = (Button) findViewById(R.id.connect_sphero_button);
         getActionBar().setTitle(mDeviceName);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
 
+        spheroButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if( Build.VERSION.SDK_INT < Build.VERSION_CODES.M
+                        || checkSelfPermission( Manifest.permission.ACCESS_COARSE_LOCATION ) == PackageManager.PERMISSION_GRANTED ) {
+                    startDiscovery();
+                }
+
+            }
+        });
     }
 
     @Override
@@ -235,10 +246,6 @@ public class DeviceControlActivity extends Activity implements RobotChangedState
     protected void onStart() {
         super.onStart();
 
-//        if( Build.VERSION.SDK_INT < Build.VERSION_CODES.M
-//                || checkSelfPermission( Manifest.permission.ACCESS_COARSE_LOCATION ) == PackageManager.PERMISSION_GRANTED ) {
-//            startDiscovery();
-//        }
     }
 
     private void startDiscovery() {
@@ -309,11 +316,19 @@ public class DeviceControlActivity extends Activity implements RobotChangedState
     private void displayData(String data) {
 //        mRobot.drive( 90.0f, ROBOT_VELOCITY );
         if (data != null) {
+            if(mRobot!=null){
+                String[] values = data.split("\t");
+                ArrayList<Integer> sensors = new ArrayList<Integer>();
+                for(String s: values)
+                    sensors.add(Integer.parseInt(s));
+
+                int sensor_a = sensors.get(2);
+                if(sensor_a>1000){
+                    float velocity = Math.abs((sensor_a*1.0f - 1000.0f)/Math.max(sensor_a*1.0f,5000.0f));
+                    drive(velocity);
+                }
+            }
 //            commented for sphero
-//            String[] values = data.split("\t");
-//            int left = Integer.parseInt(values[0]);
-//            int center = Integer.parseInt(values[1]);
-//            int right = Integer.parseInt(values[2]);
 
 //            if(left<10000){
 //                if(spheroState!=1) {
@@ -376,6 +391,10 @@ public class DeviceControlActivity extends Activity implements RobotChangedState
     private void driveBackward(){
         Log.v("Pallette", "Drive backward");
         mRobot.drive( 180.0f, ROBOT_VELOCITY );
+    }
+
+    private void drive(float velocity){
+        mRobot.drive( 0.0f, velocity );
     }
 
     private void jump(){

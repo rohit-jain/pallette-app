@@ -146,7 +146,7 @@ public class BluetoothLeService extends Service {
 
                     int temp = ((data[i] & 0xff) << 8) + (data[i+1] & 0xff);
                     stringBuilder.append(String.valueOf(temp)+"\t");
-                    stringBuilder2.append(String.format("%02X ", data[i])+String.format("%02X ", data[i+1])+"\n");
+//                    stringBuilder2.append(String.format("%02X ", data[i])+String.format("%02X ", data[i+1])+"\n");
                 }
                 intent.putExtra(EXTRA_DATA, stringBuilder.toString());
 //                intent.putExtra(EXTRA_DATA, new String(data) + "\n" + stringBuilder.toString() + "\n" + stringBuilder2.toString());
