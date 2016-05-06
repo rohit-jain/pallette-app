@@ -314,9 +314,32 @@ public class DeviceControlActivity extends Activity implements RobotChangedState
     }
 
     private boolean convertBoolean(float sensorReading){
-        if(sensorReading>20000.0)
+        if(sensorReading>5000.0)
             return true;
         return false;
+    }
+
+    private float getRotation(float sensorReadingA, float sensorReadingB){
+        float ratio;
+        boolean positive;
+        if (sensorReadingA>sensorReadingB) {
+            ratio = sensorReadingB / sensorReadingA;
+            positive = false;
+        }
+        else{
+            ratio = sensorReadingA / sensorReadingB;
+            positive = true;
+        }
+        float angle = (1.0f-ratio)*90.0f;
+        if (positive)
+            return angle+15.0f;
+        else
+            return 360.0f-angle-15.0f;
+    }
+
+    private float getVelocity(float sensorReadingA, float sensorReadingB){
+        float maxReading = Math.max(sensorReadingA, sensorReadingB);
+        return Math.min(1.0f,0.2f+Math.min(maxReading-5000.0f, 43000.0f)/43000.0f);
     }
 
     private void displayData(String data) {
@@ -328,50 +351,14 @@ public class DeviceControlActivity extends Activity implements RobotChangedState
                 for(String s: values)
                     sensors.add(Integer.parseInt(s));
 
-                boolean sensor_a = convertBoolean( sensors.get(0) );
-                boolean sensor_b = convertBoolean( sensors.get(1) );
-                if (sensor_a && sensor_b){
-                    driveForward();
-                }
-                else if (sensor_a){
-                    driveLeft();
-                }
-                else if (sensor_b){
-                    driveRight();
-                }
-                else {
-//                    driveBackward();
+                float sensor_a = sensors.get(0);
+                float sensor_b = sensors.get(1);
+                boolean bool_sensor_a = convertBoolean( sensor_a );
+                boolean bool_sensor_b = convertBoolean( sensor_b );
+                if (bool_sensor_a && bool_sensor_b){
+                    driveAngle(getRotation(sensor_a,sensor_b),getVelocity(sensor_a,sensor_b));
                 }
             }
-//            commented for sphero
-
-//            if(left<10000){
-//                if(spheroState!=1) {
-//                    spheroState = 1;
-//                    jump();
-//                    driveForward();
-//                }
-////                else if(spheroState!=3){
-////                    spheroState = 3;
-////                    jump();
-////                    driveRight();
-////                }
-//            }
-//            if(right<10000){
-//                if (spheroState!=2) {
-//                    spheroState = 2;
-//                    jump();
-//                    driveBackward();
-//                }
-////                else if(spheroState!=4) {
-////                    spheroState = 4;
-////                    jump();
-////                    driveLeft();
-////                }
-//            }
-//            if(center<10000){
-//                changeColor();
-//            }
 
             mDataField.setText(data);
         }
@@ -387,6 +374,11 @@ public class DeviceControlActivity extends Activity implements RobotChangedState
         return rn.nextInt(2);
 
     }
+    private void driveAngle(float rotation, float velocity){
+        Log.v("Pallette", "Drive angle"+rotation+" Speed:"+velocity);
+        mRobot.drive( rotation, velocity );
+    }
+
     private void driveLeft(){
         Log.v("Pallette", "Drive left");
         mRobot.drive( 270.0f, ROBOT_VELOCITY );
