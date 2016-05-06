@@ -55,6 +55,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Matcher;
 
 /**
  * For a given BLE device, this Activity provides the user interface to connect, display data,
@@ -314,7 +315,7 @@ public class DeviceControlActivity extends Activity implements RobotChangedState
     }
 
     private boolean convertBoolean(float sensorReading){
-        if(sensorReading>5000.0)
+        if(sensorReading>3000.0)
             return true;
         return false;
     }
@@ -339,8 +340,61 @@ public class DeviceControlActivity extends Activity implements RobotChangedState
 
     private float getVelocity(float sensorReadingA, float sensorReadingB){
         float maxReading = Math.max(sensorReadingA, sensorReadingB);
-        return Math.min(1.0f,0.2f+Math.min(maxReading-5000.0f, 43000.0f)/43000.0f);
+        return Math.min(1.0f,0.2f+Math.min(maxReading-3000.0f, 45000.0f)/45000.0f);
     }
+
+    private float getFullRotation(float sensorReadingA, float sensorReadingB){
+        double max_d = 48000.0f;
+        // distance between sensors
+        double d = 3000.0f;
+        // distance between supposed center line
+        double alpha = 6000.0f;
+        double radius = Math.sqrt((d*d/4)+(alpha*alpha));
+        double a = max_d - sensorReadingA;
+        double b = max_d - sensorReadingB;
+        if((b<=alpha)&&(b<=a)) {
+            double cos = ((a * a) - (b * b)) / (2 * d * radius);
+            if (cos > 1.0)
+                cos = 1.0f;
+            else if (cos < -1.0f)
+                cos = -1.0f;
+            double angle = Math.acos(cos);
+            double degrees = 90.0f-Math.toDegrees(angle);
+            Log.v("Pallette1", ":" + degrees + ":" + angle + ":" + d + ":" + radius + ":" + cos + ":" + a + ":" + b);
+        }
+        else if((a<=alpha)&&(a<=b)) {
+            double cos = ((b * b) - (a * a)) / (2 * d * radius);
+            if (cos > 1.0)
+                cos = 1.0f;
+            else if (cos < -1.0f)
+                cos = -1.0f;
+            double angle = Math.acos(cos);
+            double degrees = 270.0f + Math.toDegrees(angle);
+            Log.v("Pallette2", ":" + degrees + ":" + angle + ":" + d + ":" + radius + ":" + cos + ":" + a + ":" + b);
+        }
+        else if((b>=alpha)&&(b<=a)) {
+            double cos = ((a * a) - (b * b)) / (2 * d * radius);
+            if (cos > 1.0)
+                cos = 1.0f;
+            else if (cos < -1.0f)
+                cos = -1.0f;
+            double angle = Math.acos(cos);
+            double degrees = 90.0f+Math.toDegrees(angle);
+            Log.v("Pallette3", ":" + degrees + ":" + angle + ":" + d + ":" + radius + ":" + cos + ":" + a + ":" + b);
+        }
+        else if((a>=alpha)&&(a<=b)) {
+            double cos = ((b * b) - (a * a)) / (2 * d * radius);
+            if (cos > 1.0)
+                cos = 1.0f;
+            else if (cos < -1.0f)
+                cos = -1.0f;
+            double angle = Math.acos(cos);
+            double degrees = 180.0f+Math.toDegrees(angle);
+            Log.v("Pallette4", ":" + degrees + ":" + angle + ":" + d + ":" + radius + ":" + cos + ":" + a + ":" + b);
+        }
+        return 0.0f;
+    }
+
 
     private void displayData(String data) {
 //        mRobot.drive( 90.0f, ROBOT_VELOCITY );
@@ -356,7 +410,8 @@ public class DeviceControlActivity extends Activity implements RobotChangedState
                 boolean bool_sensor_a = convertBoolean( sensor_a );
                 boolean bool_sensor_b = convertBoolean( sensor_b );
                 if (bool_sensor_a && bool_sensor_b){
-                    driveAngle(getRotation(sensor_a,sensor_b),getVelocity(sensor_a,sensor_b));
+//                    driveAngle(getRotation(sensor_a,sensor_b),getVelocity(sensor_a,sensor_b));
+                    getFullRotation(sensor_a, sensor_b);
                 }
             }
 
