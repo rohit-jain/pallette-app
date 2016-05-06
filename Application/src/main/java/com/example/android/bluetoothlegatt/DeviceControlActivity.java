@@ -313,6 +313,12 @@ public class DeviceControlActivity extends Activity implements RobotChangedState
         });
     }
 
+    private boolean convertBoolean(float sensorReading){
+        if(sensorReading>20000.0)
+            return true;
+        return false;
+    }
+
     private void displayData(String data) {
 //        mRobot.drive( 90.0f, ROBOT_VELOCITY );
         if (data != null) {
@@ -322,10 +328,19 @@ public class DeviceControlActivity extends Activity implements RobotChangedState
                 for(String s: values)
                     sensors.add(Integer.parseInt(s));
 
-                int sensor_a = sensors.get(2);
-                if(sensor_a>1000){
-                    float velocity = Math.abs((sensor_a*1.0f - 1000.0f)/Math.max(sensor_a*1.0f,5000.0f));
-                    drive(velocity);
+                boolean sensor_a = convertBoolean( sensors.get(0) );
+                boolean sensor_b = convertBoolean( sensors.get(1) );
+                if (sensor_a && sensor_b){
+                    driveForward();
+                }
+                else if (sensor_a){
+                    driveLeft();
+                }
+                else if (sensor_b){
+                    driveRight();
+                }
+                else {
+//                    driveBackward();
                 }
             }
 //            commented for sphero
