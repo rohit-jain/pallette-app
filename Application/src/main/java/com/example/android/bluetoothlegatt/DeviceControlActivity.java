@@ -315,7 +315,7 @@ public class DeviceControlActivity extends Activity implements RobotChangedState
     }
 
     private boolean convertBoolean(float sensorReading){
-        if(sensorReading>3000.0)
+        if(sensorReading>3000.0 && sensorReading<48000.0f)
             return true;
         return false;
     }
@@ -325,11 +325,11 @@ public class DeviceControlActivity extends Activity implements RobotChangedState
         boolean positive;
         if (sensorReadingA>sensorReadingB) {
             ratio = sensorReadingB / sensorReadingA;
-            positive = false;
+            positive = true;
         }
         else{
             ratio = sensorReadingA / sensorReadingB;
-            positive = true;
+            positive = false;
         }
         float angle = (1.0f-ratio)*90.0f;
         if (positive)
@@ -410,8 +410,8 @@ public class DeviceControlActivity extends Activity implements RobotChangedState
                 boolean bool_sensor_a = convertBoolean( sensor_a );
                 boolean bool_sensor_b = convertBoolean( sensor_b );
                 if (bool_sensor_a && bool_sensor_b){
-//                    driveAngle(getRotation(sensor_a,sensor_b),getVelocity(sensor_a,sensor_b));
-                    getFullRotation(sensor_a, sensor_b);
+                    driveAngle(getRotation(sensor_a,sensor_b),getVelocity(sensor_a,sensor_b));
+//                    getFullRotation(sensor_a, sensor_b);
                 }
             }
 
