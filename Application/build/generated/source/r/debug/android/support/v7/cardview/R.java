@@ -32,22 +32,25 @@ public final class R {
 		public static final int cardview_default_radius = 0x7f040007;
 	}
 	public static final class style {
-		public static final int CardView = 0x7f050003;
-		public static final int CardView_Dark = 0x7f050004;
-		public static final int CardView_Light = 0x7f050005;
+		public static final int Base_CardView = 0x7f050004;
+		public static final int CardView = 0x7f050002;
+		public static final int CardView_Dark = 0x7f050005;
+		public static final int CardView_Light = 0x7f050006;
 	}
 	public static final class styleable {
-		public static final int[] CardView = { 0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003, 0x7f010004, 0x7f010005, 0x7f010006, 0x7f010007, 0x7f010008, 0x7f010009, 0x7f01000a };
-		public static final int CardView_cardBackgroundColor = 0;
-		public static final int CardView_cardCornerRadius = 1;
-		public static final int CardView_cardElevation = 2;
-		public static final int CardView_cardMaxElevation = 3;
-		public static final int CardView_cardPreventCornerOverlap = 5;
-		public static final int CardView_cardUseCompatPadding = 4;
-		public static final int CardView_contentPadding = 6;
-		public static final int CardView_contentPaddingBottom = 10;
-		public static final int CardView_contentPaddingLeft = 7;
-		public static final int CardView_contentPaddingRight = 8;
-		public static final int CardView_contentPaddingTop = 9;
+		public static final int[] CardView = { 0x0101013f, 0x01010140, 0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003, 0x7f010004, 0x7f010005, 0x7f010006, 0x7f010007, 0x7f010008, 0x7f010009, 0x7f01000a };
+		public static final int CardView_android_minHeight = 1;
+		public static final int CardView_android_minWidth = 0;
+		public static final int CardView_cardBackgroundColor = 2;
+		public static final int CardView_cardCornerRadius = 3;
+		public static final int CardView_cardElevation = 4;
+		public static final int CardView_cardMaxElevation = 5;
+		public static final int CardView_cardPreventCornerOverlap = 7;
+		public static final int CardView_cardUseCompatPadding = 6;
+		public static final int CardView_contentPadding = 8;
+		public static final int CardView_contentPaddingBottom = 12;
+		public static final int CardView_contentPaddingLeft = 9;
+		public static final int CardView_contentPaddingRight = 10;
+		public static final int CardView_contentPaddingTop = 11;
 	}
 }

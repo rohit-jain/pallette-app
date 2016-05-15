@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="RobotLibrary">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/.idea/libraries/RobotLibrary.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Sphero-Android-SDK-master/library/RobotLibrary.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

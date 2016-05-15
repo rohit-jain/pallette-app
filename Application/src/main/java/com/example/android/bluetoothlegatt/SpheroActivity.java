@@ -5,6 +5,7 @@ package com.example.android.bluetoothlegatt;
  */
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -113,6 +114,7 @@ public class SpheroActivity extends Activity implements View.OnClickListener, Ro
         mBtnColor.setOnClickListener( this );
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onStart() {
         super.onStart();

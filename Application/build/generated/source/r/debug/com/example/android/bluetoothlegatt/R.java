@@ -190,15 +190,16 @@ containing a value of this type.
         public static final int unknown_service=0x7f070011;
     }
     public static final class style {
-        public static final int AppTheme=0x7f050002;
-        public static final int CardView=0x7f050003;
-        public static final int CardView_Dark=0x7f050004;
-        public static final int CardView_Light=0x7f050005;
+        public static final int AppTheme=0x7f050003;
+        public static final int Base_CardView=0x7f050004;
+        public static final int CardView=0x7f050002;
+        public static final int CardView_Dark=0x7f050005;
+        public static final int CardView_Light=0x7f050006;
         public static final int Theme_Base=0x7f050001;
-        public static final int Theme_Sample=0x7f050006;
-        public static final int Widget=0x7f050007;
+        public static final int Theme_Sample=0x7f050007;
+        public static final int Widget=0x7f050008;
         public static final int Widget_SampleMessage=0x7f050000;
-        public static final int Widget_SampleMessageTile=0x7f050008;
+        public static final int Widget_SampleMessageTile=0x7f050009;
     }
     public static final class styleable {
         /** Attributes that can be used with a CardView.
@@ -207,6 +208,8 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #CardView_android_minHeight android:minHeight}</code></td><td></td></tr>
+           <tr><td><code>{@link #CardView_android_minWidth android:minWidth}</code></td><td></td></tr>
            <tr><td><code>{@link #CardView_cardBackgroundColor com.example.android.bluetoothlegatt:cardBackgroundColor}</code></td><td></td></tr>
            <tr><td><code>{@link #CardView_cardCornerRadius com.example.android.bluetoothlegatt:cardCornerRadius}</code></td><td></td></tr>
            <tr><td><code>{@link #CardView_cardElevation com.example.android.bluetoothlegatt:cardElevation}</code></td><td></td></tr>
@@ -219,6 +222,8 @@ containing a value of this type.
            <tr><td><code>{@link #CardView_contentPaddingRight com.example.android.bluetoothlegatt:contentPaddingRight}</code></td><td></td></tr>
            <tr><td><code>{@link #CardView_contentPaddingTop com.example.android.bluetoothlegatt:contentPaddingTop}</code></td><td></td></tr>
            </table>
+           @see #CardView_android_minHeight
+           @see #CardView_android_minWidth
            @see #CardView_cardBackgroundColor
            @see #CardView_cardCornerRadius
            @see #CardView_cardElevation
@@ -232,10 +237,23 @@ containing a value of this type.
            @see #CardView_contentPaddingTop
          */
         public static final int[] CardView = {
-            0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003,
-            0x7f010004, 0x7f010005, 0x7f010006, 0x7f010007,
-            0x7f010008, 0x7f010009, 0x7f01000a
+            0x0101013f, 0x01010140, 0x7f010000, 0x7f010001,
+            0x7f010002, 0x7f010003, 0x7f010004, 0x7f010005,
+            0x7f010006, 0x7f010007, 0x7f010008, 0x7f010009,
+            0x7f01000a
         };
+        /**
+          <p>This symbol is the offset where the {@link android.R.attr#minHeight}
+          attribute's value can be found in the {@link #CardView} array.
+          @attr name android:minHeight
+        */
+        public static final int CardView_android_minHeight = 1;
+        /**
+          <p>This symbol is the offset where the {@link android.R.attr#minWidth}
+          attribute's value can be found in the {@link #CardView} array.
+          @attr name android:minWidth
+        */
+        public static final int CardView_android_minWidth = 0;
         /**
           <p>This symbol is the offset where the {@link com.example.android.bluetoothlegatt.R.attr#cardBackgroundColor}
           attribute's value can be found in the {@link #CardView} array.
@@ -250,7 +268,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.example.android.bluetoothlegatt:cardBackgroundColor
         */
-        public static final int CardView_cardBackgroundColor = 0;
+        public static final int CardView_cardBackgroundColor = 2;
         /**
           <p>This symbol is the offset where the {@link com.example.android.bluetoothlegatt.R.attr#cardCornerRadius}
           attribute's value can be found in the {@link #CardView} array.
@@ -266,7 +284,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.example.android.bluetoothlegatt:cardCornerRadius
         */
-        public static final int CardView_cardCornerRadius = 1;
+        public static final int CardView_cardCornerRadius = 3;
         /**
           <p>This symbol is the offset where the {@link com.example.android.bluetoothlegatt.R.attr#cardElevation}
           attribute's value can be found in the {@link #CardView} array.
@@ -282,7 +300,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.example.android.bluetoothlegatt:cardElevation
         */
-        public static final int CardView_cardElevation = 2;
+        public static final int CardView_cardElevation = 4;
         /**
           <p>This symbol is the offset where the {@link com.example.android.bluetoothlegatt.R.attr#cardMaxElevation}
           attribute's value can be found in the {@link #CardView} array.
@@ -298,7 +316,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.example.android.bluetoothlegatt:cardMaxElevation
         */
-        public static final int CardView_cardMaxElevation = 3;
+        public static final int CardView_cardMaxElevation = 5;
         /**
           <p>This symbol is the offset where the {@link com.example.android.bluetoothlegatt.R.attr#cardPreventCornerOverlap}
           attribute's value can be found in the {@link #CardView} array.
@@ -312,7 +330,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.example.android.bluetoothlegatt:cardPreventCornerOverlap
         */
-        public static final int CardView_cardPreventCornerOverlap = 5;
+        public static final int CardView_cardPreventCornerOverlap = 7;
         /**
           <p>This symbol is the offset where the {@link com.example.android.bluetoothlegatt.R.attr#cardUseCompatPadding}
           attribute's value can be found in the {@link #CardView} array.
@@ -326,7 +344,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.example.android.bluetoothlegatt:cardUseCompatPadding
         */
-        public static final int CardView_cardUseCompatPadding = 4;
+        public static final int CardView_cardUseCompatPadding = 6;
         /**
           <p>This symbol is the offset where the {@link com.example.android.bluetoothlegatt.R.attr#contentPadding}
           attribute's value can be found in the {@link #CardView} array.
@@ -342,7 +360,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.example.android.bluetoothlegatt:contentPadding
         */
-        public static final int CardView_contentPadding = 6;
+        public static final int CardView_contentPadding = 8;
         /**
           <p>This symbol is the offset where the {@link com.example.android.bluetoothlegatt.R.attr#contentPaddingBottom}
           attribute's value can be found in the {@link #CardView} array.
@@ -358,7 +376,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.example.android.bluetoothlegatt:contentPaddingBottom
         */
-        public static final int CardView_contentPaddingBottom = 10;
+        public static final int CardView_contentPaddingBottom = 12;
         /**
           <p>This symbol is the offset where the {@link com.example.android.bluetoothlegatt.R.attr#contentPaddingLeft}
           attribute's value can be found in the {@link #CardView} array.
@@ -374,7 +392,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.example.android.bluetoothlegatt:contentPaddingLeft
         */
-        public static final int CardView_contentPaddingLeft = 7;
+        public static final int CardView_contentPaddingLeft = 9;
         /**
           <p>This symbol is the offset where the {@link com.example.android.bluetoothlegatt.R.attr#contentPaddingRight}
           attribute's value can be found in the {@link #CardView} array.
@@ -390,7 +408,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.example.android.bluetoothlegatt:contentPaddingRight
         */
-        public static final int CardView_contentPaddingRight = 8;
+        public static final int CardView_contentPaddingRight = 10;
         /**
           <p>This symbol is the offset where the {@link com.example.android.bluetoothlegatt.R.attr#contentPaddingTop}
           attribute's value can be found in the {@link #CardView} array.
@@ -406,6 +424,6 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.example.android.bluetoothlegatt:contentPaddingTop
         */
-        public static final int CardView_contentPaddingTop = 9;
+        public static final int CardView_contentPaddingTop = 11;
     };
 }

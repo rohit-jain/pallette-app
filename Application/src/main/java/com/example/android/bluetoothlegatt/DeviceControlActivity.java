@@ -17,6 +17,7 @@
 package com.example.android.bluetoothlegatt;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
@@ -83,6 +84,9 @@ public class DeviceControlActivity extends Activity implements RobotChangedState
     private BluetoothGattCharacteristic mNotifyCharacteristic;
     private static final float ROBOT_VELOCITY = 0.6f;
     private static final int REQUEST_CODE_LOCATION_PERMISSION = 42;
+
+    // Dan addition
+    private float globalAngle = 0f;
 
 
     private final String LIST_NAME = "NAME";
@@ -210,6 +214,7 @@ public class DeviceControlActivity extends Activity implements RobotChangedState
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
 
         spheroButton.setOnClickListener(new View.OnClickListener() {
+            @TargetApi(Build.VERSION_CODES.M)
             public void onClick(View v) {
                 if( Build.VERSION.SDK_INT < Build.VERSION_CODES.M
                         || checkSelfPermission( Manifest.permission.ACCESS_COARSE_LOCATION ) == PackageManager.PERMISSION_GRANTED ) {
@@ -430,8 +435,28 @@ public class DeviceControlActivity extends Activity implements RobotChangedState
 
     }
     private void driveAngle(float rotation, float velocity){
-        Log.v("Pallette", "Drive angle"+rotation+" Speed:"+velocity);
-        mRobot.drive( rotation, velocity );
+        Log.v("Pallette", "Drive angle"+globalAngle+" Speed:"+velocity);
+        // with iphone camera  velocity = Math.max(Math.min(0.25f,velocity),0f);
+
+        //without
+        velocity = Math.max(Math.min(0.22f,velocity),0f);
+        if (rotation < 100 && rotation > 80){
+            // do nothing, keep going straight ahead
+        }
+        else {
+
+            if (rotation < 90) {
+                globalAngle = (globalAngle - 4f) % 360;
+                if (globalAngle <= 0) {
+                    globalAngle = 360f;
+                }
+                //globalAngle = (globalAngle - 0.1f*rotation)%360;
+            } else {
+                globalAngle = (globalAngle + 4f) % 360;
+                //globalAngle = (globalAngle + 0.1f * rotation) % 360;
+            }
+        }
+        mRobot.drive( globalAngle, velocity );
     }
 
     private void driveLeft(){
@@ -463,7 +488,7 @@ public class DeviceControlActivity extends Activity implements RobotChangedState
         MacroObject macro = new MacroObject();
         macro.addCommand(new Roll(0.15f, 0, 0));
         macro.addCommand(new RawMotor(DriveMode.BRAKE, 255, DriveMode.FORWARD, 253, 255));
-        macro.addCommand(new Delay(1000));
+        macro.addCommand(new Delay(800));
         macro.playMacro();
 
     }
