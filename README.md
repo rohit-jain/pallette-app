@@ -53,7 +53,7 @@ submitting a pull request through GitHub. Please see CONTRIBUTING.md for more de
 License
 -------
 
-Copyright 2014 The Android Open Source Project, Inc.
+Copyright &copy; 2016 Pallette, NPO.
 
 Licensed to the Apache Software Foundation (ASF) under one or more contributor
 license agreements.  See the NOTICE file distributed with this work for
